@@ -20,7 +20,10 @@ const help = () => {
     `\t\t--bin,-b PATH(default to "java") : Define the java start executable (only for running)`
   );
   console.log(
-    `\t\t--force,-f true/false: Force create, otherwise action will be aborted should the server directory exist`
+    `\t\t--force,-f true/false : Force create, otherwise action will be aborted should the server directory exist`
+  );
+  console.log(
+    `\t\t--template,-t PATH : Copies all .jar files from this directory into the plugins directory of the target folder`
   );
   console.log(`\tRun`);
   console.log(`\t\t--dir,-d PATH : Define the directoy where the server root is`);

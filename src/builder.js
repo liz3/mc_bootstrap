@@ -35,6 +35,9 @@ module.exports = (args, pwd) => {
         if(arg === "--bin" || arg === "-b") {
             if(args[index + 1]) props.javaCmd = args[index + 1];
         }
+        if(arg === "--template" || arg === "-t") {
+            if(args[index + 1]) props.template = absoluteFolder(args[index + 1]);
+        }
         if(arg === "--force" || arg === "-f") {
             if(args[index + 1]) props.force = args[index + 1] === "true";
         }
@@ -57,6 +60,17 @@ module.exports = (args, pwd) => {
             fs.writeFileSync(merge(props.dir, "start.bat"), `@echo off\n${props.javaCmd} -jar spigot-${props.version}.jar\nPAUSE`)
         } else {
             fs.writeFileSync(merge(props.dir, "start.sh"), `#!/bin/sh\n${props.javaCmd} -jar spigot-${props.version}.jar`)
+        }
+        if(props.template) {
+            console.log("Copying template directory")
+            fs.readdirSync(props.template).forEach(e => {
+                if(!fs.existsSync(merge(props.dir, "plugins"))) 
+                fs.mkdirSync(merge(props.dir, "plugins"));
+                if(e.endsWith(".jar")) {
+                    console.log(`copying ${e}`);
+                    fs.copyFileSync(merge(props.template, e), merge(merge(props.dir, "plugins"), e));
+                }
+            })
         }
         process.stdout.write("Start server ? (Y/N): ")
         process.stdin.resume();
