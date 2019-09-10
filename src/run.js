@@ -1,4 +1,5 @@
 const { absoluteFolder, merge, getEula } = require("./utils/system");
+const { save, load } = require("./utils/dump_saver");
 const manager = require("./manager");
 const md5 = require("md5");
 const { startServerWithPipes } = require("./utils/serverUtils");
@@ -13,12 +14,12 @@ const propsValid = props => {
   return true;
 };
 module.exports = (args, wd) => {
-  const props = {
+  let props = {
     dir: null,
     javaCmd: "java",
     jvmArgs: [],
     watchers: [],
-    fileName: null
+    fileName: null,
   };
   args.forEach((arg, index) => {
     if (arg === "--dir" || arg === "-d") {
@@ -30,10 +31,17 @@ module.exports = (args, wd) => {
     if (arg === "--file" || arg === "-f") {
       if (args[index + 1]) props.fileName = absoluteFolder(args[index + 1]);
     }
+    if (arg === "--dump" || arg === "-o") {
+      props.dump = true;
+      if (args[index + 1]) props.dumpPath =args[index + 1];
+    }
+    if (arg === "--conf" || arg === "-c") {
+      if (args[index + 1]) props.confFile = args[index + 1];
+    }
     if (arg === "--watch" || arg === "-w") {
       props.watchers.push({
         file: absoluteFolder(args[index + 1]),
-        out: absoluteFolder(args[index + 2]),
+        out: absoluteFolder(args[index + 2]) ,
         cmd: args[index + 3],
         md5Previous: null
       });
@@ -42,7 +50,18 @@ module.exports = (args, wd) => {
       if (args[index + 1]) props.jvmArgs.push(args[index + 1]);
     }
   });
-  if (propsValid(props)) {
+  if (propsValid(props) || props.confFile) {
+    if(props.dump) {
+      const dumpObject = {dir: props.dir, watchers: props.watchers, javaCmd: props.javaCmd, jvmArgs: props.jvmArgs, fileName: props.fileName}
+      save(dumpObject, props.dumpPath);
+      console.log("Saved config");
+      return;
+    }
+    if(props.confFile) {
+      console.log(`Loading config ${props.confFile}`)
+        const obj = load(props.confFile);
+        props = {...props, ...obj, watchers: [...props.watchers,...obj.watchers],jvmArgs: [...props.jvmArgs,...obj.jvmArgs]};
+    }
     console.log(`starting server ${props.fileName} in ${props.dir}`);
     let server = startServerWithPipes(
       props.javaCmd,

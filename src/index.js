@@ -25,7 +25,7 @@ const help = () => {
   console.log(
     `\t\t--template,-t PATH : Copies all .jar files from this directory into the plugins directory of the target folder`
   );
-  console.log(`\tRun`);
+  console.log(`\rrun`);
   console.log(`\t\t--dir,-d PATH : Define the directoy where the server root is`);
   console.log(`\t\t--bin,-b PATH(default to "java") : Define the java start executable`);
   console.log(`\t\t--file,-f PATH : Define the server exeutable`);
@@ -33,9 +33,12 @@ const help = () => {
     `\t\t--watch,-w : Define a file to be watched, this option is followed by 3 arguments, file(The file to be watch), dest(the destination file) and cmd()\n\t\t\tExample: -w myproject/build/plugin.jar myserver/plugins/plugin.jar restart\n\t\t\tActions: restart will perform a server restart, while anything else will only run the specified command`
   );
   console.log(`\t\t--jvm,-j PARAM : Adds the following param to the JVM start args`);
+  console.log(`\t\t--dump,-o NAME : Rather then starting the configuration, it saves the configuration into a file`);
+  console.log(`\t\t--conf,-c NAME : Loads a configuration from the name and starts a server based on that config`);
 };
 if (args.length === 0) {
   console.log("No arguments provided!");
+  help()
 } else {
   switch (args[0]) {
     case "build": {

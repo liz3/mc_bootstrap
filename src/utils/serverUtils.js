@@ -5,6 +5,7 @@ exports.startServerWithPipes = (java, path, fName, args = [], jvmArgs = []) => {
   });
   
   child.stdout.pipe(process.stdout);
+  child.stderr.pipe(process.stderr)
   process.stdin.pipe(child.stdin);
   return child;
 };
