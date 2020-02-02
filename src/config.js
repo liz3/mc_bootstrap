@@ -1,5 +1,5 @@
 module.exports = {
-  version: "1.0",
+  version: "1.1",
   base_cdn: "https://static.savagellc.net",
   server_versions: [
     "1.14.4",

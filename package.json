@@ -1,6 +1,6 @@
 {
   "name": "mc_bootstrap",
-  "version": "1.0.0",
+  "version": "1.1",
   "description": "A Savage internal tool to bootrap minecraft servers",
   "main": "src/index.js",
   "author": "Liz3",
