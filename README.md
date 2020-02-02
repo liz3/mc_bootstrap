@@ -1,5 +1,7 @@
 # mc_bootstrap
-Can watch plugin binaries for changes to copy and restart a server
+Can watch plugin binaries for changes to copy and restart a server  
+
+[Download, all platforms](https://github.com/liz3/mc_bootstrap/releases/latest)
 
 ## Building binaries:
 `pkg -t latest-macos-x64 -o binaries/mc_bootstrap_darwin_x64 . && pkg -t latest-linux-x64 -o binaries/mc_bootstrap_linux_x64 . && pkg -t latest-win-x64 -o binaries/mc_bootstrap_x64 .`
